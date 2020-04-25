@@ -1,0 +1,13 @@
+[Unit]
+Description=Led MQTT Server
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pi/web-server/app.py
+User=pi
+WorkingDirectory=/home/pi/web-server
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
