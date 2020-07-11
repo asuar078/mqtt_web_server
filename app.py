@@ -31,7 +31,7 @@ def get_pin_data():
     return jsonify(apartment)
 
 
-@app.route("/ctrl/<action>", methods=['GET'])
+@app.route("/ctrl/<action>", methods=['GET', 'POST'])
 def set_all_leds(action):
 
     # check if action if valid
