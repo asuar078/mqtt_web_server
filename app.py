@@ -31,6 +31,28 @@ def get_pin_data():
     return jsonify(apartment)
 
 
+@app.route("/ctrl/<action>", methods=['GET'])
+def set_all_leds(action):
+
+    # check if action if valid
+    if action == '1' or action == '0':
+        logging.debug("sending ctrl command")
+
+        for floor in apartment:
+            topic = "floor/{}".format(floor)
+            act = "{}/{}".format(apartment[floor][0], action)
+
+            logging.debug("topic: {}, action: {}".format(topic, act))
+
+            # publish on mqtt for esp to see
+            mqttc.publish(topic, act)
+
+        return jsonify(message="OK")
+
+    logging.error("action not allowed")
+    return jsonify(message="FAIL")
+
+
 @app.route("/floor/<floor_num>/<room>/<action>", methods=['GET', 'POST'])
 def publish_event(floor_num, room, action):
     logging.debug("received, floor: {}, num: {}, action: {}".
